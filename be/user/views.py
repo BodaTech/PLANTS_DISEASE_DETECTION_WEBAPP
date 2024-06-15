@@ -2,7 +2,6 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import APIView
-import tensorflow as tf 
 import os
 import numpy as np
 import glob 
@@ -19,8 +18,7 @@ from django.shortcuts import get_object_or_404
 from plant.models import Plant, Disease
 from user.models import Diagnostic
 from copy import deepcopy
-
-
+from django.conf import settings
 
 class DiagnosticView(APIView):
 
@@ -35,7 +33,8 @@ class DiagnosticView(APIView):
 
     def post(self, request: Request):
         # loading model
-        model = tf.keras.models.load_model('user\\ai\model')
+        
+        model = settings.MODEL
 
         uploaded_image = request.FILES.get("image")
 
@@ -63,7 +62,7 @@ class DiagnosticView(APIView):
         if is_infected:
             plant_name = result.split('___')[0]
             plant_obj = Plant.objects.filter(name__icontains=plant_name).first()
-            print(plant_obj)
+            print(result)
             disease = Disease.objects.filter(name=result).first()
             print(disease)
         else:
@@ -95,6 +94,6 @@ class DiagnosticView(APIView):
             'disease': DiseaseSerializer(disease).data,
         }
 
-        return Response(data, status=status.HTTP_201_OK)
+        return Response(data, status=status.HTTP_201_CREATED)
 
         

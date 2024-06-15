@@ -33,7 +33,7 @@
       "model": "plant.Disease",
       "pk": 4,
       "fields": {
-          "name": "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot",
+          "name": "Corn(maize)___Cercospora_leaf_spot_Gray_leaf_spot",
           "plant": 2,
           "image": "corn_cercospora_leaf_spot.png",
           "description": "Cercospora leaf spot, also known as gray leaf spot, is caused by the fungus Cercospora zeae-maydis. It results in gray to tan lesions on corn leaves, potentially reducing photosynthetic activity and yield."
@@ -43,7 +43,7 @@
       "model": "plant.Disease",
       "pk": 5,
       "fields": {
-          "name": "Corn_(maize)___Common_rust_",
+          "name": "Corn(maize)___Common_rust",
           "plant": 2,
           "image": "corn_common_rust.png",
           "description": "Common rust in corn is caused by the fungus Puccinia sorghi. This disease presents as reddish-brown pustules on both leaf surfaces and can reduce photosynthetic capability and yield."
@@ -53,7 +53,7 @@
       "model": "plant.Disease",
       "pk": 6,
       "fields": {
-          "name": "Corn_(maize)___Northern_Leaf_Blight",
+          "name": "Corn(maize)___Northern_Leaf_Blight",
           "plant": 2,
           "image": "corn_northern_leaf_blight.png",
           "description": "Northern Leaf Blight, caused by the fungus Exserohilum turcicum, appears as long, gray-green lesions on corn leaves, which can lead to significant yield losses if not managed."
