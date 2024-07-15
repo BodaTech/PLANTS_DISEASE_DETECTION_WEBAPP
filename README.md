@@ -64,7 +64,7 @@ a web app  that helps you detect whether the plant is healthy or infected. If an
 
 3. Start the development server:
 
-    <code>npm start</code>
+    <code>npm run dev</code>
 
 
 
