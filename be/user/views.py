@@ -15,8 +15,9 @@ from io import BytesIO
 from user.serializers import DiagnosticSerializer, DiagnosticDetailSerializer
 from plant.serializers import DiseaseSerializer
 from django.shortcuts import get_object_or_404
-from plant.models import Plant, Disease
+from plant.models import Plant, Disease, CureDisease
 from user.models import Diagnostic
+from plant.serializers import CureDiseaseSerializer
 from copy import deepcopy
 from django.conf import settings
 
@@ -59,22 +60,36 @@ class DiagnosticView(APIView):
         # save the prediction
         is_infected = not "healthy" in result.lower()
 
+        plant_name = result.split('___')[0]
+        plant_obj = Plant.objects.filter(name__icontains=plant_name).first()
+
         if is_infected:
-            plant_name = result.split('___')[0]
-            plant_obj = Plant.objects.filter(name__icontains=plant_name).first()
-            print(result)
             disease = Disease.objects.filter(name=result).first()
-            print(disease)
         else:
             result = 'healthy'
+            disease = None
 
-        if not plant_obj or not disease:
+        if not plant_obj:
             return Response(status=status.HTTP_404_NOT_FOUND)
         
         diagnostic_data = deepcopy(request.data)
         diagnostic_data['plant'] = plant_obj.id
         diagnostic_data['plant_image'] = uploaded_image.name
-        diagnostic_data['disease'] = disease.id
+
+        cures = None
+        cureDiseases = None
+
+        print(result)
+
+        if is_infected: 
+            diagnostic_data['disease'] = disease.id
+            cureDiseases = CureDisease.objects.filter(disease=disease.id)
+        else:
+            diagnostic_data['disease'] = None
+
+        if cureDiseases != None:
+            cures = CureDiseaseSerializer(cureDiseases, many=True).data
+
         diagnostic_data['is_infected'] = is_infected
 
 
@@ -91,7 +106,8 @@ class DiagnosticView(APIView):
         data = {
             'is_infected': is_infected,
             'plant': plant_name,
-            'disease': DiseaseSerializer(disease).data,
+            'disease': DiseaseSerializer(disease).data if disease is not None else "Plant Leaf is Healthy",
+            'cures': cures
         }
 
         return Response(data, status=status.HTTP_201_CREATED)

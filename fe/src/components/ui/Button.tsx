@@ -20,7 +20,7 @@ const Button: React.FC<ButtonProps> = (
 ) => {
     
     const priorities: Record<string, string> = {
-        primary: 'bg-blue-600 text-gray-50',
+        primary: 'bg-blue-500 text-gray-50 border-blue-500',
         secondary: 'bg-gray-500 text-gray-50',
         dark: 'bg-gray-700 text-gray-50 ',
         light: 'bg-gray-300 text-gray-500 ',

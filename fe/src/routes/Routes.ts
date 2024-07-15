@@ -1,6 +1,7 @@
-import Diagnostic from "../pages/Diagnostic/components/DiagnosticForm";
 import Home from "../pages/Home/Index";
 import About from "../pages/About/Index";
+import Diagnostic from "../pages/Diagnostic/Index";
+
 
 const ROUTES = Object.freeze([
     {

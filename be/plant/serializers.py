@@ -17,12 +17,15 @@ class CureSerializer(ModelSerializer):
         model = Cure
         fields = '__all__'
 
-class CureDiseaseSerializer(ModelSerializer):
-    class Meta:
-        model = CureDisease
-        fields = '__all__'
-
 class DiseaseSerializer(ModelSerializer):
     class Meta:
         model = Disease
         fields = '__all__'
+
+
+class CureDiseaseSerializer(ModelSerializer):
+    cure = CureSerializer()
+    class Meta:
+        model = CureDisease
+        fields = ['cure']
+

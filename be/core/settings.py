@@ -72,7 +72,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pds',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
@@ -147,7 +147,7 @@ CATEGORIES = ['Apple___Apple_scab',
                 'Tomato___healthy']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CORS_ALLOW_ALL_ORIGIN = True
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIAL = True
 
 MODEL = tf.keras.models.load_model('user/ai/model')

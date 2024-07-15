@@ -3,10 +3,14 @@ import Card from "../../../components/Card";
 import Button from "../../../components/ui/Button";
 import Modal, { ModalBody } from "../../../components/ui/modal/Modal";
 import React, { useState } from "react";
+import { useContext } from "react";
+import { DiagnosticContext } from "../../../contexts/DiagnosticContext";
+import { FaCheckCircle } from "react-icons/fa";
 
 const CureItem: React.FC<{title: string, description: string}> = ({
     title, description
 }) => {
+  console.log("test")
     return <>
         <div
             className="relative"
@@ -25,9 +29,17 @@ const CureItem: React.FC<{title: string, description: string}> = ({
     </>
 }
 
+
 const DiagnosticResult = () => {
   const [toggle, setToggle] = useState<boolean>(false);
+  const {result, setSubmited, fileURL, setFileURL, setResult} = useContext(DiagnosticContext)
+
   
+  const tryAnotherPlant = () => {
+    setSubmited(false)
+    setResult(undefined)
+    setFileURL(undefined)
+  }
 
   return (
     <>
@@ -37,35 +49,69 @@ const DiagnosticResult = () => {
       >
         <div>
           <Card
-            className="bg-[#9c9797] w-[450px]
+            className="bg-[#9c9797] min-w-[450px]
                 flex flex-col items-center gap-5 justify-between
-                max-h-[530px] card"
+                max-h-[530px] py-10 card mt-7"
           >
             <div className="text-center px-5 relative">
               <img
                 className="absolute w-72 h-60 rounded-xl
                 -top-32 left-1/2 -translate-x-1/2 shadow-md
                 object-cover"
-                src="src\\assets\\img\\apple_black_rote.jpg"
+                src={fileURL}
               />
               <h2 className="font-bold text-3xl py-2 pt-32">
-                Apple Black Rote
+                {
+                  result?.is_infected == true ? (
+                    result?.disease.name
+                  ) : (
+                    "Plant is Healthy"
+                  )
+                }
               </h2>
-              <FaCircleXmark color="#DA2323" className="mx-auto" size={32} />
+              {
+                result?.is_infected == true ? 
+                (<FaCircleXmark color="#DA2323" className="mx-auto" size={32} />) :
+                (<FaCheckCircle color="#5DF69B" className="mx-auto" size={32} />)
+              }
               <p className="text-lg text-gray-800">
-                 Black rot is occasionally a problem on Minnesota apple trees.
-                This fungal disease causes leaf spot, fruit rot and cankers on
-                branches.
+                {
+                  result?.disease.description
+                }
               </p>
             </div>
 
-            <Button
-              className="w-[250px]"
-              type="button"
-              priority="success"
-              text={"Explore Cures"}
-              action={() => setToggle(true)}
-            />
+            {
+              result?.is_infected == true ? (
+                <div
+                  className="flex gap-2 flex-wrap"
+                >
+                  <Button
+                    className="w-[200px]"
+                    type="button"
+                    priority="success"
+                    text={"Try Another Plant"}
+                    action={tryAnotherPlant}
+                  />
+                  <Button
+                    className="w-[200px]"
+                    type="button"
+                    priority="primary"
+                    text={"Explore Cures"}
+                    action={() => setToggle(true)}
+                  />
+                </ div>
+              ) : (
+                <Button
+                  className="w-[250px]"
+                  type="button"
+                  priority="success"
+                  text={"Try Another Plant"}
+                  action={tryAnotherPlant}
+                />
+              )
+            }
+            
           </Card>
         </div>
       </div>
@@ -83,12 +129,19 @@ const DiagnosticResult = () => {
             <div
                 className="overflow-y-auto max-h-[500px]"
             >
-                <CureItem 
-                    title="Copper Fungicide"
-                    description="Copper fungicide is commonly used to control fungal diseases in
-                    plants. It is effective against a wide range of fungi and is often
-                    used on fruit trees, vegetables, and ornamental plants."
-                />
+
+              {result?.cures && result?.cures.length ? (
+                result?.cures ? (result?.cures.map((instance, index) => (
+                  <CureItem
+                      key={index}
+                      title={instance.cure.name}
+                      description={instance.cure.description}
+                  />
+                ))) : null
+              ): <p
+                    className="text-base"
+                  >No Cure available in our database right now, check back later</p>
+              }    
 
             </div>
           </div>
