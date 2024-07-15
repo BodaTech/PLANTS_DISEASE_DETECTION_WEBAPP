@@ -1,14 +1,17 @@
 
 # About The Project
 
-Welcome to the Online Quiz Maker project! This application allows users to create, and take quizzes online. this platform provides a user-friendly interface for quiz creation and administration.
+LeafLens
+
+a web app  that helps you detect whether the plant is healthy or infected. If an infection is detected, the app identifies the specific disease and provides a description along with recommended cures with a user-friendly interface.
+
 
 # Technologies Used
 
 - Backend: Django, Django REST Framework
+- Ai Model: MobileNet
 - Frontend: React
 - Database: Mysql
-- Authentication: JSON Web Tokens (JWT: access / refresh token)
 
 # Setup
 
@@ -16,7 +19,7 @@ Welcome to the Online Quiz Maker project! This application allows users to creat
 
 1. Clone the repository to your local machine:
 
-    <code>git clone https://github.com/BodaTech/REACT_DJANGO_ONLINE_QUIZ_MAKER_PROJECT.git</code>
+    <code>git clone https://github.com/BodaTech/PLANTS_DISEASE_DETECTION_WEBAPP.git</code>
 
 2. Navigate to the backend directory:
 
@@ -36,7 +39,17 @@ Welcome to the Online Quiz Maker project! This application allows users to creat
 
     <code>py manage.py migrate</code>
 
-6. Run the Django development server:
+6. Seed the database located in <code>plant\data\\</code>
+   
+    <code>py manage.py loaddata plant\data\plants.json</code>
+
+    <code>py manage.py loaddata plant\data\diseases.json</code>
+
+    <code>py manage.py loaddata plant\data\cures.json</code>
+
+    <code>py manage.py loaddata plant\data\cures_diseases.json</code>
+
+7. Run the Django development server:
 
     <code>py manage.py migrate</code>
 
@@ -54,3 +67,38 @@ Welcome to the Online Quiz Maker project! This application allows users to creat
     <code>npm start</code>
 
 
+
+## Warning
+
+The model can make false prediction in some cases and can detect only these disease categories:
+
+- Apple
+  - Apple scab
+  - Black rot
+  - Cedar apple rust
+  - Healthy
+- Corn (maize)
+  - Cercospora leaf spot (Gray leaf spot)
+  - Common rust
+  - Northern Leaf Blight
+  - Healthy
+- Grape
+  - Black rot
+  - Esca (Black Measles)
+  - Leaf blight (Isariopsis Leaf Spot)
+  - Healthy
+- Potato
+  - Early blight
+  - Late blight
+  - Healthy
+- Tomato
+  - Bacterial spot
+  - Early blight
+  - Late blight
+  - Leaf Mold
+  - Septoria leaf spot
+  - Spider mites (Two-spotted spider mite)
+  - Target Spot
+  - Tomato Yellow Leaf Curl Virus
+  - Tomato mosaic virus
+  - Healthy
